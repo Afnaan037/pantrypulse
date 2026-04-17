@@ -39,10 +39,6 @@ index.html
 
 No dependencies required.
 
-## 🌐 Live Demo
-
-* will be processed later 
-
 ## ⚠️ Limitations
 
 * Uses static recipe dataset (no real API yet)
@@ -60,7 +56,7 @@ No dependencies required.
 
 ## 👨‍💻 Author
 
-Your Name
+Afnaan Alji
 
 ---
 
