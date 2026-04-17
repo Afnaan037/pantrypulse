@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PantryPulse — Cook What You Have</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1D9E75;
+  --green-dark: #0F6E56;
+  --green-light: #E1F5EE;
+  --green-mid: #5DCAA5;
+  --amber: #EF9F27;
+  --coral: #D85A30;
+  --blue: #378ADD;
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --border: rgba(0,0,0,0.09);
+  --border-md: rgba(0,0,0,0.15);
+  --text: #1a1a18;
+  --text-muted: #6b6b65;
+  --text-hint: #9e9e97;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+}
+.logo-mark {
+  width: 38px; height: 38px;
+  background: var(--green);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 22px; height: 22px; fill: white; }
+.brand-text h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.brand-text p {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: -1px;
+}
+.header-stats {
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.stat-pill {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.stat-pill strong {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* ── MAIN LAYOUT ── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ── HERO SECTION ── */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  letter-spacing: 0.04em;
+}
+.hero h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+.hero h2 em {
+  font-style: italic;
+  color: var(--green);
+}
+.hero p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── INGREDIENT PANEL ── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.panel-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+/* chips */
+.chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  min-height: 36px;
+  margin-bottom: 12px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 10px 5px 12px;
+  border-radius: 20px;
+  animation: chip-in .18s ease;
+}
+@keyframes chip-in {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.chip-x {
+  width: 16px; height: 16px;
+  background: rgba(15,110,86,0.2);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--green-dark);
+  padding: 0;
+}
+.chip-x:hover { background: rgba(15,110,86,0.35); }
+.chips-placeholder {
+  font-size: 13px;
+  color: var(--text-hint);
+  align-self: center;
+  padding-left: 2px;
+}
+
+/* input row */
+.input-row {
+  display: flex;
+  gap: 8px;
+  position: relative;
+}
+.input-wrap { position: relative; flex: 1; }
+.ing-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+}
+.ing-input:focus { border-color: var(--green); background: white; }
+.add-btn {
+  height: 44px;
+  padding: 0 20px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, transform .1s;
+}
+.add-btn:hover { background: var(--green-dark); }
+.add-btn:active { transform: scale(0.97); }
+
+/* autocomplete */
+.sug-box {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  overflow: hidden;
+}
+.sug-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  transition: background .1s;
+}
+.sug-item:hover { background: var(--green-light); color: var(--green-dark); }
+.sug-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green-mid);
+  flex-shrink: 0;
+}
+
+/* ── FILTERS ── */
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.filter-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.filter-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border-md);
+  border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: all .15s;
+}
+.filter-btn:hover { border-color: var(--green-mid); color: var(--green); }
+.filter-btn.active {
+  background: var(--green-light);
+  color: var(--green-dark);
+  border-color: var(--green-mid);
+}
+
+/* ── CTA ── */
+.cta-btn {
+  width: 100%;
+  height: 52px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  margin-bottom: 2rem;
+  transition: background .15s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.cta-btn:hover { background: var(--green-dark); }
+.cta-btn:active { transform: scale(0.99); }
+
+/* ── RESULTS ── */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.results-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+.results-count {
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--border);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* ── RECIPE CARDS ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.recipe-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .18s, box-shadow .18s, border-color .18s;
+  box-shadow: var(--shadow);
+}
+.recipe-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--green-mid);
+}
+.card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: #f0ede8;
+}
+.card-img-placeholder {
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(135deg, #f0ede8 0%, #e8e4dc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+}
+.card-body { padding: 14px; }
+.card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.tag-veg   { background: #EAF3DE; color: #3B6D11; }
+.tag-spice { background: #FAECE7; color: #993C1D; }
+.tag-time  { background: #E6F1FB; color: #185FA5; }
+.tag-diff  { background: #FAEEDA; color: #854F0B; }
+.tag-perfect { background: var(--green-light); color: var(--green-dark); }
+
+/* match bar */
+.match-wrap { margin-top: 4px; }
+.match-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.match-pct { font-weight: 600; }
+.match-bar {
+  height: 5px;
+  background: #ece9e2;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.match-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--green);
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+}
+.match-fill.partial { background: var(--amber); }
+.missing-line {
+  font-size: 11px;
+  color: var(--coral);
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+.missing-badge {
+  background: #FAECE7;
+  color: #993C1D;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(3px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modal-in .22s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+}
+@keyframes modal-in {
+  from { transform: scale(0.9) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);      opacity: 1; }
+}
+.modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 32px; height: 32px;
+  background: rgba(0,0,0,0.07);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+  color: var(--text);
+  transition: background .15s;
+}
+.modal-close:hover { background: rgba(0,0,0,0.14); }
+.modal-hero {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 20px 20px 0 0;
+}
+.modal-hero-placeholder {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72px;
+  background: linear-gradient(135deg, #f0ede8, #e2ddd4);
+  border-radius: 20px 20px 0 0;
+}
+.modal-body { padding: 1.5rem; }
+.modal-title {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+.modal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+.modal-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  margin-top: 1.5rem;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+/* ingredients list */
+.ing-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+}
+.ing-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+.ing-list li.have { color: var(--green-dark); }
+.ing-list li.have .ing-dot { background: var(--green); }
+.ing-list li.missing-ing { color: var(--coral); }
+.ing-list li.missing-ing .ing-dot { background: var(--coral); }
+.ing-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+/* steps */
+.steps-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.step-num {
+  width: 30px; height: 30px;
+  background: var(--green);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.step-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+  padding-top: 4px;
+}
+.step-tip {
+  display: block;
+  font-size: 12px;
+  color: var(--green-dark);
+  background: var(--green-light);
+  border-radius: 6px;
+  padding: 5px 9px;
+  margin-top: 6px;
+  font-style: italic;
+}
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+.nut-card {
+  text-align: center;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+}
+.nut-val {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green);
+}
+.nut-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state h3 { font-family: 'Fraunces', serif; font-size: 20px; margin-bottom: 6px; color: var(--text); }
+.empty-state p { font-size: 14px; line-height: 1.6; }
+
+/* toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 2000;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 600px) {
+  .hero h2 { font-size: 26px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .ing-list { grid-template-columns: 1fr; }
+  .nutrition-grid { grid-template-columns: repeat(2, 1fr); }
+  .header-stats { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 19.53A2 2 0 0 0 5.5 22a1.93 1.93 0 0 0 1.72-1C9 19 12 18 17 19V22l5-4-5-4v2c-3.5-.5-5.5.5-7.5 2C10.5 13 13 11 17 10V8z"/></svg>
+    </div>
+    <div class="brand-text">
+      <h1>PantryPulse</h1>
+      <p>Cook what you already have</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat-pill"><strong id="pantry-count">0</strong> ingredients</div>
+      <div class="stat-pill"><strong>50+</strong> recipes</div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">✦ Zero food waste</div>
+    <h2>What's hiding in your <em>pantry?</em></h2>
+    <p>Add what you have and we'll find delicious recipes you can make right now — no grocery run needed.</p>
+  </div>
+
+  <!-- Ingredient Panel -->
+  <div class="panel">
+    <div class="panel-title">Your pantry ingredients</div>
+    <div class="chips-wrap" id="chips">
+      <span class="chips-placeholder" id="chips-placeholder">Start typing to add ingredients...</span>
+    </div>
+    <div class="input-row">
+      <div class="input-wrap">
+        <input class="ing-input" id="ing-input" type="text" placeholder="e.g. eggs, tomato, garlic..." autocomplete="off">
+        <div class="sug-box" id="sug-box"></div>
+      </div>
+      <button class="add-btn" onclick="addIngredient()">+ Add</button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-row">
+    <span class="filter-label">Filter by:</span>
+    <button class="filter-btn" data-filter="veg" onclick="toggleFilter(this)">🌱 Vegetarian</button>
+    <button class="filter-btn" data-filter="quick" onclick="toggleFilter(this)">⚡ Under 20 min</button>
+    <button class="filter-btn" data-filter="easy" onclick="toggleFilter(this)">😊 Easy</button>
+    <button class="filter-btn" data-filter="spicy" onclick="toggleFilter(this)">🌶 Spicy</button>
+    <button class="filter-btn" data-filter="perfect" onclick="toggleFilter(this)">✅ Perfect match</button>
+  </div>
+
+  <!-- CTA -->
+  <button class="cta-btn" onclick="findRecipes()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    What can I make?
+  </button>
+
+  <!-- Results -->
+  <div id="results"></div>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const ALL_INGREDIENTS = [
+  "eggs","tomato","onion","garlic","butter","cheese","pasta","rice","chicken",
+  "potato","carrot","spinach","milk","bread","lemon","ginger","oil","flour",
+  "pepper","salt","cumin","chili","yogurt","mushroom","corn","peas","soy sauce",
+  "vinegar","honey","basil","cream","coconut milk","paneer","tofu","broccoli",
+  "capsicum","spring onion","coriander","turmeric","mustard seeds","dal","oats",
+  "banana","apple","cinnamon","sugar","baking powder","cocoa","nuts","raisins",
+  "noodles","cabbage","bean sprouts","sesame oil","fish sauce","lime","mint"
+];
+
+const RECIPES = [
+  {
+    id:1, name:"Egg Fried Rice", emoji:"🍳",
+    veg:true, quick:true, easy:true, spicy:false,
+    time:"15 min", diff:"Easy", cuisine:"Asian",
+    desc:"Classic Asian comfort food — fluffy rice tossed with egg, soy, and vegetables.",
+    image:"https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600&q=70",
+    ingredients:["eggs","rice","soy sauce","onion","garlic","oil"],
+    optional:["peas","carrot","spring onion"],
+    nutrition:{cal:380,protein:14,carbs:52,fat:12},
+    steps:[
+      {text:"Cook rice a day ahead or use leftover cold rice — cold rice fries better and stays separate.",tip:"Day-old rice is the secret to non-sticky fried rice."},
+      {text:"Crack 3 eggs into a bowl, whisk with a pinch of salt and a splash of soy sauce."},
+      {text:"Heat 2 tbsp oil in a wok or large pan on high heat until it shimmers."},
+      {text:"Pour in eggs, scramble loosely, then push to one side before they fully set."},
+      {text:"Add chopped onion and garlic, stir-fry 1 minute until fragrant."},
+      {text:"Add cold rice, pressing and tossing to break any clumps. Stir-fry 3–4 minutes."},
+      {text:"Pour 2–3 tbsp soy sauce around the edge of the wok, toss everything together.", tip:"Adding soy to the hot edge caramelizes it slightly — deeper flavor."},
+      {text:"Add peas or carrot if using, toss 1 minute more. Taste and adjust salt. Serve hot with spring onion on top."}
+    ]
+  },
+  {
+    id:2, name:"Pasta Aglio e Olio", emoji:"🍝",
+    veg:true, quick:true, easy:true, spicy:true,
+    time:"20 min", diff:"Easy", cuisine:"Italian",
+    desc:"The Roman midnight classic — just pasta, garlic, olive oil, and chili. Sublime.",
+    image:"https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=70",
+    ingredients:["pasta","garlic","oil","chili"],
+    optional:["basil","cheese","lemon"],
+    nutrition:{cal:420,protein:12,carbs:68,fat:14},
+    steps:[
+      {text:"Bring a large pot of generously salted water to a boil. Cook pasta until 1 minute shy of al dente. Reserve 1 cup pasta water before draining.", tip:"The starchy pasta water is your sauce binder — don't skip it!"},
+      {text:"Meanwhile, thinly slice 6 garlic cloves. Chop fresh chili or use flakes."},
+      {text:"In a wide pan, heat 4 tbsp good olive oil on low. Add garlic and cook slowly — golden, not brown, about 4 minutes."},
+      {text:"Add chili, cook 30 seconds. Remove pan from heat briefly."},
+      {text:"Add drained pasta to the pan with a ladle of pasta water. Return to low heat."},
+      {text:"Toss continuously, adding more pasta water as needed to form a silky, glossy sauce that clings to the pasta.", tip:"Tossing vigorously emulsifies the oil and water — this is the technique."},
+      {text:"Plate immediately. Finish with fresh basil, a squeeze of lemon, and grated cheese if using."}
+    ]
+  },
+  {
+    id:3, name:"Masala Omelette", emoji:"🥚",
+    veg:true, quick:true, easy:true, spicy:true,
+    time:"10 min", diff:"Easy", cuisine:"Indian",
+    desc:"Spiced Indian omelette with onion, tomato, and green chili. A breakfast legend.",
+    image:"https://images.unsplash.com/photo-1510693206972-df098062cb71?w=600&q=70",
+    ingredients:["eggs","onion","tomato","chili","oil","salt"],
+    optional:["cheese","coriander","capsicum"],
+    nutrition:{cal:220,protein:16,carbs:6,fat:15},
+    steps:[
+      {text:"Finely chop ½ small onion, 1 small tomato (deseeded), and 1 green chili."},
+      {text:"Crack 2–3 eggs into a bowl. Add salt, a pinch of turmeric if available, and whisk well."},
+      {text:"Add chopped onion, tomato, chili, and fresh coriander to the egg mixture. Mix."},
+      {text:"Heat a non-stick pan on medium-high. Add 1 tsp oil, swirl to coat."},
+      {text:"Pour in egg mixture. Let it set for 30 seconds, then gently lift edges to let raw egg flow underneath."},
+      {text:"When mostly set on top, fold in half. Cook 30 more seconds each side.", tip:"Don't overcook — a slightly soft center is perfect."},
+      {text:"Serve hot with toasted bread or chapati."}
+    ]
+  },
+  {
+    id:4, name:"Aloo Jeera", emoji:"🥔",
+    veg:true, quick:false, easy:true, spicy:true,
+    time:"25 min", diff:"Easy", cuisine:"Indian",
+    desc:"Cumin-spiced potatoes — a comforting North Indian classic with minimal ingredients.",
+    image:"https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=70",
+    ingredients:["potato","cumin","oil","chili","salt"],
+    optional:["garlic","onion","coriander","turmeric"],
+    nutrition:{cal:280,protein:5,carbs:48,fat:9},
+    steps:[
+      {text:"Boil or pressure-cook 3 medium potatoes until just tender. Cool, peel, and cube into 1-inch pieces."},
+      {text:"Heat 2 tbsp oil in a pan on medium-high. Add 1 tsp cumin seeds — let them splutter for 20 seconds.", tip:"Hot oil + cumin seeds = the sizzle that releases all the aroma."},
+      {text:"Add sliced onion and garlic if using. Sauté until golden, about 3 minutes."},
+      {text:"Add green chili and ¼ tsp turmeric if using. Stir 30 seconds."},
+      {text:"Add cubed potatoes. Toss to coat in spices. Spread in pan, let sit 2 minutes to crisp up."},
+      {text:"Toss again, let the other sides crisp. Season with salt. Cook 5–6 minutes total."},
+      {text:"Finish with fresh coriander. Serve with dal, yogurt, or as a side dish."}
+    ]
+  },
+  {
+    id:5, name:"Mushroom Risotto", emoji:"🍄",
+    veg:true, quick:false, easy:false, spicy:false,
+    time:"35 min", diff:"Medium", cuisine:"Italian",
+    desc:"Creamy, comforting Italian risotto with earthy mushrooms and parmesan.",
+    image:"https://images.unsplash.com/photo-1476124369491-e7adec5c239e?w=600&q=70",
+    ingredients:["rice","mushroom","butter","garlic","onion"],
+    optional:["cheese","milk","cream","basil"],
+    nutrition:{cal:460,protein:12,carbs:65,fat:18},
+    steps:[
+      {text:"Warm 4 cups of water or stock in a separate pot — adding cold liquid to risotto cools it down and ruins the texture.", tip:"Warm stock is the #1 risotto rule."},
+      {text:"Slice 200g mushrooms. Sauté in 1 tbsp butter on high heat until golden and liquid has evaporated. Season, set aside."},
+      {text:"In the same pan on medium, melt 1 tbsp butter. Sauté diced onion until translucent, 3–4 min. Add garlic, cook 1 min."},
+      {text:"Add 1 cup arborio rice (or regular short-grain), stir to coat in butter. Toast 1 minute."},
+      {text:"Add warm stock one ladle at a time, stirring constantly. Only add next ladle when previous is absorbed."},
+      {text:"Continue for 18–20 minutes until rice is creamy and cooked with a slight bite (al dente)."},
+      {text:"Remove from heat. Stir in 1 tbsp cold butter and grated cheese for creaminess. Fold in sautéed mushrooms.", tip:"This final off-heat butter stir is called 'mantecatura' — it's what makes risotto silky."},
+      {text:"Rest 1 minute. Plate immediately, it waits for no one."}
+    ]
+  },
+  {
+    id:6, name:"Garlic Cheese Toast", emoji:"🧀",
+    veg:true, quick:true, easy:true, spicy:false,
+    time:"10 min", diff:"Easy", cuisine:"Western",
+    desc:"Crunchy, buttery garlic bread with melted cheese. The ultimate quick snack.",
+    image:"https://images.unsplash.com/photo-1619954110729-9bb8ee3f8b12?w=600&q=70",
+    ingredients:["bread","butter","garlic","cheese"],
+    optional:["basil","chili"],
+    nutrition:{cal:290,protein:10,carbs:28,fat:16},
+    steps:[
+      {text:"Preheat oven to 200°C (or use a stovetop pan or air fryer)."},
+      {text:"Mince or grate 3–4 garlic cloves. Mix into softened butter with a pinch of salt."},
+      {text:"Spread garlic butter generously on bread slices."},
+      {text:"Top with a thick layer of grated cheese."},
+      {text:"Bake 8–10 minutes until edges are golden and cheese is bubbly and beginning to brown.", tip:"Broil the last 1–2 minutes for extra golden top."},
+      {text:"Sprinkle with dried basil or fresh chili flakes if desired. Serve immediately."}
+    ]
+  },
+  {
+    id:7, name:"Spinach Dal", emoji:"🫘",
+    veg:true, quick:false, easy:true, spicy:true,
+    time:"30 min", diff:"Easy", cuisine:"Indian",
+    desc:"Hearty lentil and spinach soup, spiced with cumin and chili. Protein-packed comfort.",
+    image:"https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=70",
+    ingredients:["spinach","garlic","onion","cumin","chili","oil","dal"],
+    optional:["tomato","ginger","turmeric","coriander"],
+    nutrition:{cal:310,protein:18,carbs:42,fat:8},
+    steps:[
+      {text:"Rinse ½ cup dal (red or yellow lentils). Pressure cook with 2 cups water and ½ tsp turmeric for 3 whistles, or simmer in a pot 20 min until soft. Mash lightly."},
+      {text:"Wash and roughly chop 2 large handfuls of spinach."},
+      {text:"Heat 2 tbsp oil in a pan. Add 1 tsp cumin seeds and let sizzle 20 seconds."},
+      {text:"Add diced onion, cook until golden (5–6 min). Add garlic and ginger, cook 1 min. Add chili."},
+      {text:"Add tomato if using, cook until soft and oil separates, about 3 min."},
+      {text:"Add cooked dal to the pan. Stir and simmer 5 minutes to meld flavors."},
+      {text:"Add spinach, stir in, cook until wilted (2 min). Season with salt.", tip:"Add spinach at the very end to keep it bright green and fresh."},
+      {text:"Serve with rice or roti, topped with a squeeze of lemon."}
+    ]
+  },
+  {
+    id:8, name:"Chicken Stir Fry", emoji:"🍗",
+    veg:false, quick:true, easy:true, spicy:false,
+    time:"20 min", diff:"Easy", cuisine:"Asian",
+    desc:"Quick weeknight chicken stir fry with crisp veggies and a savory soy glaze.",
+    image:"https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=70",
+    ingredients:["chicken","garlic","soy sauce","oil","pepper"],
+    optional:["onion","carrot","corn","capsicum","ginger"],
+    nutrition:{cal:340,protein:32,carbs:14,fat:16},
+    steps:[
+      {text:"Slice chicken breast into thin strips. Marinate with 1 tbsp soy sauce, a pinch of pepper, and 1 tsp cornstarch for 10 minutes.", tip:"Cornstarch in the marinade gives chicken a silky, restaurant-style texture."},
+      {text:"Prep all vegetables — slice onion, carrot, capsicum into thin strips."},
+      {text:"Heat wok on high until smoking. Add 2 tbsp oil."},
+      {text:"Cook chicken strips in batches — don't crowd the pan. Sear 2 min per side until golden. Remove and set aside."},
+      {text:"In the same wok, add garlic (and ginger if using), stir-fry 30 seconds."},
+      {text:"Add harder vegetables first (carrot), then softer ones (capsicum, corn). Stir-fry 2–3 min on high."},
+      {text:"Return chicken. Add 2–3 tbsp soy sauce and a splash of water. Toss everything together 1 minute."},
+      {text:"Taste, adjust seasoning. Serve immediately over rice or noodles."}
+    ]
+  },
+  {
+    id:9, name:"Banana Oat Pancakes", emoji:"🥞",
+    veg:true, quick:true, easy:true, spicy:false,
+    time:"15 min", diff:"Easy", cuisine:"Western",
+    desc:"3-ingredient healthy pancakes — no flour needed. Naturally sweet and filling.",
+    image:"https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=70",
+    ingredients:["banana","eggs","oats"],
+    optional:["cinnamon","honey","milk","nuts"],
+    nutrition:{cal:260,protein:12,carbs:38,fat:7},
+    steps:[
+      {text:"Mash 2 ripe bananas very well with a fork until almost smooth."},
+      {text:"Add 2 eggs and ½ cup rolled oats. Add a pinch of cinnamon if using. Mix into a thick batter.", tip:"Riper bananas = sweeter, more flavorful pancakes. Spots are perfect."},
+      {text:"Let the batter rest 3 minutes so oats can absorb moisture."},
+      {text:"Heat a non-stick pan on medium-low. Grease lightly with butter or oil."},
+      {text:"Pour small rounds (2–3 tbsp each). Cook 2–3 minutes until bubbles form and edges look set."},
+      {text:"Flip carefully — these are more delicate than regular pancakes. Cook 1–2 min more.", tip:"Medium-low heat is key. Too hot and they burn before cooking through."},
+      {text:"Serve stacked with honey, sliced banana, or fresh fruit."}
+    ]
+  },
+  {
+    id:10, name:"Tomato Basil Soup", emoji:"🍅",
+    veg:true, quick:false, easy:true, spicy:false,
+    time:"30 min", diff:"Easy", cuisine:"Western",
+    desc:"Silky roasted tomato soup with basil — the ultimate cozy bowl.",
+    image:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=70",
+    ingredients:["tomato","onion","garlic","oil","basil"],
+    optional:["cream","butter","sugar","chili"],
+    nutrition:{cal:180,protein:4,carbs:22,fat:9},
+    steps:[
+      {text:"Preheat oven to 200°C. Halve 6 tomatoes and place cut-side up on a baking tray with quartered onion and garlic cloves."},
+      {text:"Drizzle with olive oil, season with salt and pepper. Roast 25 minutes until caramelized.", tip:"Roasting concentrates the tomato flavor and removes excess water."},
+      {text:"Scrape everything into a blender or pot. Add fresh basil and a cup of water or stock."},
+      {text:"Blend until smooth. If using an immersion blender, blend directly in the pot."},
+      {text:"Strain through a sieve for extra silkiness (optional)."},
+      {text:"Return to pot, simmer 5 min. Taste and adjust — add sugar if too acidic, more basil for freshness."},
+      {text:"Swirl in cream or cold butter for richness. Serve with garlic bread."}
+    ]
+  },
+  {
+    id:11, name:"Vegetable Noodle Stir Fry", emoji:"🍜",
+    veg:true, quick:true, easy:true, spicy:false,
+    time:"18 min", diff:"Easy", cuisine:"Asian",
+    desc:"Quick Asian noodles with crispy veg and a savory soy-sesame sauce.",
+    image:"https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=70",
+    ingredients:["noodles","soy sauce","garlic","oil","cabbage"],
+    optional:["bean sprouts","carrot","sesame oil","ginger","chili","spring onion"],
+    nutrition:{cal:350,protein:9,carbs:58,fat:10},
+    steps:[
+      {text:"Cook noodles 1 minute less than package says. Drain, toss with a little oil to prevent sticking."},
+      {text:"Mix sauce: 3 tbsp soy sauce, 1 tsp sesame oil if available, 1 tsp sugar, splash of water."},
+      {text:"Shred cabbage thinly. Julienne carrot. Slice spring onion."},
+      {text:"Heat wok on high with 2 tbsp oil. Add garlic and ginger, stir-fry 20 seconds."},
+      {text:"Add harder vegetables, stir-fry 2 min on high heat."},
+      {text:"Add noodles, toss to separate strands."},
+      {text:"Pour sauce around edge of wok, toss vigorously 1–2 minutes until noodles are coated and slightly charred.", tip:"Don't stir constantly — let noodles sit briefly to get a little wok char."},
+      {text:"Add bean sprouts, toss 30 seconds. Garnish with spring onion."}
+    ]
+  },
+  {
+    id:12, name:"Honey Ginger Lemon Tea", emoji:"🍵",
+    veg:true, quick:true, easy:true, spicy:false,
+    time:"5 min", diff:"Easy", cuisine:"Drink",
+    desc:"Healing three-ingredient hot drink — warming, soothing, and immune-boosting.",
+    image:"https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=70",
+    ingredients:["ginger","honey","lemon"],
+    optional:["mint","cinnamon","turmeric"],
+    nutrition:{cal:45,protein:0,carbs:12,fat:0},
+    steps:[
+      {text:"Peel and thinly slice a 1-inch piece of fresh ginger."},
+      {text:"Add ginger to a cup or small pot with 1.5 cups water."},
+      {text:"Simmer on low heat for 4–5 minutes to infuse.", tip:"Longer simmering = stronger, more medicinal ginger flavor."},
+      {text:"Squeeze the juice of half a lemon into your mug."},
+      {text:"Strain the ginger water into the mug."},
+      {text:"Add 1 tsp honey, stir to dissolve. Add mint or cinnamon if using. Drink warm."}
+    ]
+  },
+  {
+    id:13, name:"Paneer Bhurji", emoji:"🧆",
+    veg:true, quick:true, easy:true, spicy:true,
+    time:"15 min", diff:"Easy", cuisine:"Indian",
+    desc:"Crumbled spiced paneer — the Indian answer to scrambled eggs. Rich and satisfying.",
+    image:"https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&q=70",
+    ingredients:["paneer","onion","tomato","garlic","oil","cumin","chili"],
+    optional:["capsicum","coriander","ginger","turmeric"],
+    nutrition:{cal:310,protein:18,carbs:12,fat:22},
+    steps:[
+      {text:"Crumble 200g paneer coarsely with your hands."},
+      {text:"Finely chop 1 onion, 1 tomato, and 1 green chili. Mince 3 garlic cloves."},
+      {text:"Heat 2 tbsp oil in a pan. Add cumin seeds and sizzle 20 sec."},
+      {text:"Add onion, sauté until golden, 4–5 min. Add garlic (and ginger), cook 1 min."},
+      {text:"Add tomato, chili, and ¼ tsp turmeric. Cook until tomato is mushy and oil separates."},
+      {text:"Add crumbled paneer, toss to coat in masala. Cook 3–4 min, stirring gently.", tip:"Don't overcook — paneer should stay soft, not rubbery."},
+      {text:"Season with salt. Finish with fresh coriander. Serve with roti or toast."}
+    ]
+  },
+  {
+    id:14, name:"Coconut Rice", emoji:"🥥",
+    veg:true, quick:false, easy:true, spicy:false,
+    time:"25 min", diff:"Easy", cuisine:"South Indian",
+    desc:"Fragrant South Indian coconut rice with mustard seeds and curry leaves.",
+    image:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&q=70",
+    ingredients:["rice","coconut milk","mustard seeds","oil","salt"],
+    optional:["garlic","chili","peas","cumin"],
+    nutrition:{cal:380,protein:6,carbs:62,fat:13},
+    steps:[
+      {text:"Rinse 1 cup rice until water runs clear. Drain."},
+      {text:"Heat 1 tbsp oil in a pot. Add 1 tsp mustard seeds — wait for them to pop."},
+      {text:"Add garlic and chili if using. Stir 30 seconds."},
+      {text:"Add rinsed rice, stir to coat in oil for 1 minute."},
+      {text:"Pour in 1 cup coconut milk and ¾ cup water. Add salt. Stir once."},
+      {text:"Bring to a boil, reduce heat to very low, cover tightly. Cook 15 min.", tip:"Don't lift the lid! Steam does the work."},
+      {text:"Turn off heat. Rest covered 5 min. Fluff with a fork. Serve with dal or curry."}
+    ]
+  },
+  {
+    id:15, name:"Chocolate Mug Cake", emoji:"🍫",
+    veg:true, quick:true, easy:true, spicy:false,
+    time:"5 min", diff:"Easy", cuisine:"Dessert",
+    desc:"Gooey chocolate cake in a mug — ready in 90 seconds. Dangerous knowledge.",
+    image:"https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=70",
+    ingredients:["flour","cocoa","sugar","eggs","butter","milk"],
+    optional:["nuts","raisins","baking powder","vanilla"],
+    nutrition:{cal:390,protein:8,carbs:52,fat:18},
+    steps:[
+      {text:"In a large microwave-safe mug, melt 2 tbsp butter (20 seconds in microwave)."},
+      {text:"Add 3 tbsp sugar, 1 egg. Whisk together with a fork."},
+      {text:"Add 2 tbsp cocoa powder, 4 tbsp flour, a pinch of salt. Mix until smooth.", tip:"No lumps! Lumps = uneven cooking."},
+      {text:"Add 3 tbsp milk, mix until batter is smooth. Add a pinch of baking powder if you have it."},
+      {text:"Fold in nuts or chocolate chips if desired."},
+      {text:"Microwave on high 60–90 seconds. Start checking at 60 sec — it should be set on top but still moist.", tip:"It will look underdone but it keeps cooking from residual heat. Don't overcook!"},
+      {text:"Let cool 1 minute before eating. Eat directly from the mug."}
+    ]
+  }
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+let pantry = JSON.parse(localStorage.getItem('pantrypulse_pantry') || '[]');
+let activeFilters = new Set(JSON.parse(localStorage.getItem('pantrypulse_filters') || '[]'));
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
+function init() {
+  renderChips();
+  restoreFilters();
+  updateStats();
+}
+
+function savePantry() {
+  localStorage.setItem('pantrypulse_pantry', JSON.stringify(pantry));
+}
+function saveFilters() {
+  localStorage.setItem('pantrypulse_filters', JSON.stringify([...activeFilters]));
+}
+
+// ── INGREDIENTS ────────────────────────────────────────────────────────────────
+function renderChips() {
+  const c = document.getElementById('chips');
+  const ph = document.getElementById('chips-placeholder');
+  if (pantry.length === 0) {
+    c.innerHTML = '';
+    if (ph) { c.appendChild(ph); ph.style.display = 'inline'; }
+    return;
+  }
+  if (ph) ph.style.display = 'none';
+  c.innerHTML = pantry.map(i =>
+    `<span class="chip">${i}<button class="chip-x" onclick="removeIng('${i}')">×</button></span>`
+  ).join('');
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('pantry-count').textContent = pantry.length;
+}
+
+function addIngredient() {
+  const inp = document.getElementById('ing-input');
+  const val = inp.value.trim().toLowerCase().replace(/\s+/g, ' ');
+  if (val && !pantry.includes(val)) {
+    pantry.push(val);
+    savePantry();
+    renderChips();
+    showToast(`Added "${val}"`);
+  }
+  inp.value = '';
+  hideSug();
+  inp.focus();
+}
+
+function removeIng(name) {
+  pantry = pantry.filter(i => i !== name);
+  savePantry();
+  renderChips();
+}
+
+document.getElementById('ing-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addIngredient();
+});
+
+document.getElementById('ing-input').addEventListener('input', function() {
+  const val = this.value.toLowerCase().trim();
+  if (!val) { hideSug(); return; }
+  const matches = ALL_INGREDIENTS.filter(i => i.includes(val) && !pantry.includes(i)).slice(0, 6);
+  const box = document.getElementById('sug-box');
+  if (matches.length) {
+    box.style.display = 'block';
+    box.innerHTML = matches.map(m =>
+      `<div class="sug-item" onclick="pickSug('${m}')"><span class="sug-dot"></span>${m}</div>`
+    ).join('');
+  } else hideSug();
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.input-wrap')) hideSug();
+});
+
+function pickSug(val) {
+  document.getElementById('ing-input').value = val;
+  hideSug();
+  addIngredient();
+}
+function hideSug() { document.getElementById('sug-box').style.display = 'none'; }
+
+// ── FILTERS ────────────────────────────────────────────────────────────────────
+function toggleFilter(btn) {
+  const f = btn.dataset.filter;
+  if (activeFilters.has(f)) { activeFilters.delete(f); btn.classList.remove('active'); }
+  else { activeFilters.add(f); btn.classList.add('active'); }
+  saveFilters();
+}
+
+function restoreFilters() {
+  activeFilters.forEach(f => {
+    const btn = document.querySelector(`[data-filter="${f}"]`);
+    if (btn) btn.classList.add('active');
+  });
+}
+
+// ── FIND RECIPES ───────────────────────────────────────────────────────────────
+function findRecipes() {
+  const res = document.getElementById('results');
+  if (pantry.length === 0) {
+    res.innerHTML = `<div class="empty-state"><div class="empty-icon">🧺</div><h3>Your pantry is empty</h3><p>Add at least one ingredient above to discover what you can cook.</p></div>`;
+    return;
+  }
+
+  let candidates = RECIPES.filter(r => {
+    if (activeFilters.has('veg') && !r.veg) return false;
+    if (activeFilters.has('quick') && !r.quick) return false;
+    if (activeFilters.has('easy') && !r.easy) return false;
+    if (activeFilters.has('spicy') && !r.spicy) return false;
+    return true;
+  });
+
+  let scored = candidates.map(r => {
+    const matched = r.ingredients.filter(i => pantry.includes(i)).length;
+    const total = r.ingredients.length;
+    const pct = Math.round((matched / total) * 100);
+    const missing = r.ingredients.filter(i => !pantry.includes(i));
+    return { ...r, pct, missing, matched };
+  }).filter(r => r.pct > 0);
+
+  if (activeFilters.has('perfect')) scored = scored.filter(r => r.pct === 100);
+
+  scored.sort((a, b) => b.pct - a.pct);
+
+  if (scored.length === 0) {
+    res.innerHTML = `<div class="empty-state"><div class="empty-icon">😕</div><h3>No matches found</h3><p>Try adding more ingredients or removing some filters.</p></div>`;
+    return;
+  }
+
+  res.innerHTML = `
+    <div class="results-header">
+      <div class="results-title">Recipes for you</div>
+      <div class="results-count">${scored.length} match${scored.length !== 1 ? 'es' : ''}</div>
+    </div>
+    <div class="cards-grid">${scored.map(r => buildCard(r)).join('')}</div>
+  `;
+}
+
+function buildCard(r) {
+  const tags = [];
+  if (r.pct === 100) tags.push(`<span class="tag tag-perfect">✓ Perfect match</span>`);
+  if (r.veg) tags.push(`<span class="tag tag-veg">Vegetarian</span>`);
+  if (r.spicy) tags.push(`<span class="tag tag-spice">Spicy</span>`);
+  tags.push(`<span class="tag tag-time">${r.time}</span>`);
+  tags.push(`<span class="tag tag-diff">${r.diff}</span>`);
+
+  const isPartial = r.pct < 100;
+  const missingHTML = r.missing.length
+    ? `<div class="missing-line">Need: ${r.missing.map(m => `<span class="missing-badge">${m}</span>`).join('')}</div>`
+    : '';
+  const imgHTML = r.image
+    ? `<img class="card-img" src="${r.image}" alt="${r.name}" loading="lazy" onerror="this.outerHTML='<div class=\\'card-img-placeholder\\'>${r.emoji}</div>'">`
+    : `<div class="card-img-placeholder">${r.emoji}</div>`;
+
+  return `
+    <div class="recipe-card" onclick="openModal(${r.id})">
+      ${imgHTML}
+      <div class="card-body">
+        <div class="card-title">${r.name}</div>
+        <div class="card-tags">${tags.join('')}</div>
+        <div class="match-wrap">
+          <div class="match-meta">
+            <span>Ingredient match</span>
+            <span class="match-pct" style="color:${r.pct===100?'var(--green)':'var(--amber)'}">${r.pct}%</span>
+          </div>
+          <div class="match-bar">
+            <div class="match-fill ${isPartial?'partial':''}" style="width:${r.pct}%"></div>
+          </div>
+        </div>
+        ${missingHTML}
+      </div>
+    </div>`;
+}
+
+// ── MODAL ──────────────────────────────────────────────────────────────────────
+function openModal(id) {
+  const r = RECIPES.find(x => x.id === id);
+  if (!r) return;
+
+  const scored = r.ingredients.map(i => ({ name: i, have: pantry.includes(i) }));
+  const optional = (r.optional || []).map(i => ({ name: i, have: pantry.includes(i) }));
+  const allIngs = [...scored, ...optional];
+
+  const imgHTML = r.image
+    ? `<img class="modal-hero" src="${r.image}" alt="${r.name}" onerror="this.outerHTML='<div class=\\'modal-hero-placeholder\\'>${r.emoji}</div>'">`
+    : `<div class="modal-hero-placeholder">${r.emoji}</div>`;
+
+  const tags = [];
+  if (r.veg) tags.push(`<span class="tag tag-veg">Vegetarian</span>`);
+  if (r.spicy) tags.push(`<span class="tag tag-spice">Spicy</span>`);
+  tags.push(`<span class="tag tag-time">⏱ ${r.time}</span>`);
+  tags.push(`<span class="tag tag-diff">${r.diff}</span>`);
+  if (r.cuisine) tags.push(`<span class="tag" style="background:#f0ede8;color:#6b5a3e">${r.cuisine}</span>`);
+
+  const stepsHTML = r.steps.map((s, i) => `
+    <li class="step">
+      <div class="step-num">${i + 1}</div>
+      <div class="step-text">
+        ${s.text}
+        ${s.tip ? `<span class="step-tip">💡 ${s.tip}</span>` : ''}
+      </div>
+    </li>`).join('');
+
+  const ingsHTML = allIngs.map(i => `
+    <li class="${i.have ? 'have' : 'missing-ing'}">
+      <span class="ing-dot"></span>
+      ${i.name}
+      ${!i.have ? '<span style="font-size:10px;margin-left:auto;opacity:.6">needed</span>' : ''}
+    </li>`).join('');
+
+  const nutHTML = r.nutrition ? `
+    <div class="modal-section-title">Nutrition (per serving)</div>
+    <div class="nutrition-grid">
+      <div class="nut-card"><div class="nut-val">${r.nutrition.cal}</div><div class="nut-label">Calories</div></div>
+      <div class="nut-card"><div class="nut-val">${r.nutrition.protein}g</div><div class="nut-label">Protein</div></div>
+      <div class="nut-card"><div class="nut-val">${r.nutrition.carbs}g</div><div class="nut-label">Carbs</div></div>
+      <div class="nut-card"><div class="nut-val">${r.nutrition.fat}g</div><div class="nut-label">Fat</div></div>
+    </div>` : '';
+
+  document.getElementById('modal-content').innerHTML = `
+    ${imgHTML}
+    <div class="modal-body">
+      <div class="modal-title">${r.name}</div>
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">${r.desc}</p>
+      <div class="modal-meta">${tags.join('')}</div>
+      ${nutHTML}
+      <div class="modal-section-title">Ingredients</div>
+      <ul class="ing-list">${ingsHTML}</ul>
+      <div class="modal-section-title">How to prepare</div>
+      <ol class="steps-list">${stepsHTML}</ol>
+    </div>`;
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// ── TOAST ──────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
